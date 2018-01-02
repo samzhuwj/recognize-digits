@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as scio
 
-import displayData as dd
-import lrCostFunction as lCF
-import oneVsAll as ova
-import predictOneVsAll as pova
+from displayData import display_data
+from lrCostFunction import lr_cost_function
+from oneVsAll import one_vs_all
+from predictOneVsAll import predict_one_vs_all
 
 
 plt.ion()
@@ -19,7 +19,6 @@ num_labels = 10         # 10 labels, from 0 to 9
 # ===================== Part 1: Loading and Visualizing Data =====================
 # We start the exercise by first loading and visualizing the dataset.
 # You will be working with a dataset that contains handwritten digits.
-#
 
 # Load Training Data
 print('Loading and Visualizing Data ...')
@@ -32,8 +31,7 @@ m = y.size
 # Randomly select 100 data points to display
 rand_indices = np.random.permutation(range(m))
 selected = X[rand_indices[0:100], :]
-
-dd.display_data(selected)
+display_data(selected)
 
 input('Program paused. Press ENTER to continue')
 
@@ -44,7 +42,6 @@ input('Program paused. Press ENTER to continue')
 # regularized logistic regression implementation is vectorized. After
 # that, you will implement one-vs-all classification for the handwritten
 # digit dataset
-#
 
 # Test case for lrCostFunction
 print('Testing lrCostFunction()')
@@ -53,9 +50,9 @@ theta_t = np.array([-2, -1, 1, 2])
 X_t = np.c_[np.ones(5), np.arange(1, 16).reshape((3, 5)).T/10]
 y_t = np.array([1, 0, 1, 0, 1])
 lmda_t = 3
-cost, grad = lCF.lr_cost_function(theta_t, X_t, y_t, lmda_t)
-
+cost, grad = lr_cost_function(theta_t, X_t, y_t, lmda_t)
 np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
+
 print('Cost: {:0.7f}'.format(cost))
 print('Expected cost: 2.534819')
 print('Gradients:\n{}'.format(grad))
@@ -68,15 +65,14 @@ input('Program paused. Press ENTER to continue')
 print('Training One-vs-All Logistic Regression ...')
 
 lmd = 0.1
-all_theta = ova.one_vs_all(X, y, num_labels, lmd)
+all_theta = one_vs_all(X, y, num_labels, lmd)
 
 input('Program paused. Press ENTER to continue')
 
 
 # ===================== Part 3: Predict for One-Vs-All =====================
+pred = predict_one_vs_all(all_theta, X)
 
-pred = pova.predict_one_vs_all(all_theta, X)
-
-print('Training set accuracy: {}'.format(np.mean(pred == y)*100))
+print('Training set accuracy: {}'.format(np.mean(pred==y)*100))
 
 input('ex3 Finished. Press ENTER to exit')

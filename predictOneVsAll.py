@@ -19,12 +19,9 @@ def predict_one_vs_all(all_theta, X):
     #                your learned logistic regression parameters (one vs all).
     #                You should set p to a vector of predictions (from 1 to
     #                num_labels)
-    #
     # Hint : This code can be done all vectorized using the max function
     #        In particular, the max function can also return the index of the
     #        max element, for more information see 'np.argmax' function.
-    #
-
     result = np.dot(all_theta, X.T)
     result = np.roll(result, -1, axis=0)
     result = np.vstack([np.zeros(m), result])
